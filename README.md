@@ -17,9 +17,8 @@ public $URL_channelMp = 'https://payment.tripay.co.id/api/merchant/payment-chann
 public $URL_calcMs = 'https://payment.tripay.co.id/api-sandbox/merchant/fee-calculator';
 public $URL_calcMp = 'https://payment.tripay.co.id/api/merchant/fee-calculator';
 ```
-/*
-* URLs Transaction
-*/
+// URLs Transaction
+
 // Create
 ```
 public $URL_transMs = 'https://payment.tripay.co.id/api-sandbox/transaction/create';
