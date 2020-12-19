@@ -9,6 +9,9 @@ class Tripay {
 	protected $api_Key = '';
 	// Database
 	protected $dbH;
+	protected $field_status = 'status'; // nama field status dalam tabel transaksi
+	protected $field_kodetrans = 'idtrx'; // nama field kode dalam tabel transaksi
+	protected $tabel_trans = 'trx'; // nama tabel transaksi
 
 	// URLs Channel
 	public $URL_channelPs = 'https://payment.tripay.co.id/api-sandbox/payment/channel';
@@ -53,6 +56,25 @@ class Tripay {
 		}
 	}
 
+	private function dQuery($merchantH = null,$statusH = null){
+		$this->checkKey();
+		if ($merchantH === null OR $merchantH === '' AND $statusH === null OR $statusH === '' AND $this->field_status === null OR $this->field_status === '' AND $this->field_kodetrans === null OR $this->field_kodetrans === '' AND $this->tabel_trans === null OR $this->tabel_trans === '') {
+			return false;
+		} else {
+			if ($statusH === 'UNPAID') {
+				return "UPDATE ".addslashes($this->tabel_trans)." SET ".addslashes($this->field_status)." = 'UNPAID' WHERE ".addslashes($this->field_kodetrans)." = '".addslashes($merchantH)."'";
+			} elseif ($statusH === 'PAID') {
+				return "UPDATE ".addslashes($this->tabel_trans)." SET ".addslashes($this->field_status)." = 'PAID' WHERE ".addslashes($this->field_kodetrans)." = '".addslashes($merchantH)."'";
+			} elseif ($statusH === 'EXPIRED') {
+				return "UPDATE ".addslashes($this->tabel_trans)." SET ".addslashes($this->field_status)." = 'EXPIRED' WHERE ".addslashes($this->field_kodetrans)." = '".addslashes($merchantH)."'";
+			} elseif ($statusH === 'FAILED') {
+				return "UPDATE ".addslashes($this->tabel_trans)." SET ".addslashes($this->field_status)." = 'FAILED' WHERE ".addslashes($this->field_kodetrans)." = '".addslashes($merchantH)."'";
+			} elseif ($statusH === 'REFUND') {
+				return "UPDATE ".addslashes($this->tabel_trans)." SET ".addslashes($this->field_status)." = 'REFUND' WHERE ".addslashes($this->field_kodetrans)." = '".addslashes($merchantH)."'";
+			}
+		}
+	}
+
 	public function callBack(){
 		$this->checkKey();
 		header('Content-Type: application/json');
@@ -78,8 +100,8 @@ class Tripay {
 			    if($data->status == 'UNPAID'){
 			        $merchantRef = $this->dbH->escape_string(addslashes($data->merchant_ref));
 
-			        // pembayaran sukses, lanjutkan proses sesuai sistem Anda, contoh:
-			        $queryUNPAID = "UPDATE trx SET status = 'UNPAID' WHERE idtrx = '".$merchantRef."'";
+			        // belum pembayaran, lanjutkan proses sesuai sistem Anda, contoh:
+			        $queryUNPAID = $this->dQuery($merchantRef,$data->status);
 			        $updateUNPAID = $this->dbH->query($queryUNPAID);
 
 			        if ($updateUNPAID) {
@@ -91,7 +113,7 @@ class Tripay {
 			        $merchantRef = $this->dbH->escape_string(addslashes($data->merchant_ref));
 
 			        // pembayaran sukses, lanjutkan proses sesuai sistem Anda, contoh:
-			        $queryPAID = "UPDATE trx SET status = 'PAID' WHERE idtrx = '".$merchantRef."'";
+			        $queryPAID = $this->dQuery($merchantRef,$data->status);
 			        $updatePAID = $this->dbH->query($queryPAID);
 
 			        if ($updatePAID) {
@@ -102,8 +124,8 @@ class Tripay {
 			    } elseif($data->status == 'EXPIRED'){
 			        $merchantRef = $this->dbH->escape_string(addslashes($data->merchant_ref));
 
-			        // pembayaran sukses, lanjutkan proses sesuai sistem Anda, contoh:
-			        $queryEXPIRED = "UPDATE trx SET status = 'EXPIRED' WHERE idtrx = '".$merchantRef."'";
+			        // pembayaran expired, lanjutkan proses sesuai sistem Anda, contoh:
+			        $queryEXPIRED = $this->dQuery($merchantRef,$data->status);
 			        $updateEXPIRED = $this->dbH->query($queryEXPIRED);
 
 			        if ($updateEXPIRED) {
@@ -114,8 +136,8 @@ class Tripay {
 			    } elseif($data->status == 'FAILED'){
 			        $merchantRef = $this->dbH->escape_string(addslashes($data->merchant_ref));
 
-			        // pembayaran sukses, lanjutkan proses sesuai sistem Anda, contoh:
-			        $queryFAILED = "UPDATE trx SET status = 'FAILED' WHERE idtrx = '".$merchantRef."'";
+			        // pembayaran gagal, lanjutkan proses sesuai sistem Anda, contoh:
+			        $queryFAILED = $this->dQuery($merchantRef,$data->status);
 			        $updateFAILED = $this->dbH->query($queryFAILED);
 
 			        if ($updateFAILED) {
@@ -126,8 +148,8 @@ class Tripay {
 			    } elseif($data->status == 'REFUND'){
 			        $merchantRef = $this->dbH->escape_string(addslashes($data->merchant_ref));
 
-			        // pembayaran sukses, lanjutkan proses sesuai sistem Anda, contoh:
-			        $queryREFUND = "UPDATE trx SET status = 'REFUND' WHERE idtrx = '".$merchantRef."'";
+			        // pembayaran dikembalikan, lanjutkan proses sesuai sistem Anda, contoh:
+			        $queryREFUND = $this->dQuery($merchantRef,$data->status);
 			        $updateREFUND = $this->dbH->query($queryREFUND);
 
 			        if ($updateREFUND) {
