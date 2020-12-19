@@ -2,7 +2,8 @@
 Library for TriPay (https://payment.tripay.co.id/) with PHP 7 Object Oriented
 
 # Usage
-You can see how to using this library in folder ```example```
+- Pertama registrasi akun tripay terlebih dahulu, bisa melalui link denny.my.id/go/tripay
+- Anda bisa melihat contoh menggunakan library ini di folder ```example```
 
 # List Variable Link
 // URLs Channel
@@ -38,3 +39,5 @@ public $URL_transDetailOpenMp = 'https://payment.tripay.co.id/api/transaction/op
 public $URL_transPembOpenMs = '';
 public $URL_transPembOpenMp = 'https://payment.tripay.co.id/api/transaction/open-payment/';
 ```
+# Regards
+Denny Septian Panggabean
