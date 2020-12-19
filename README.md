@@ -1,8 +1,10 @@
 # TriPay-Library
-Library untuk TriPay (Payment Gateway Lokal Indonesia) menggunakan bahasa pemrograman PHP versi 7
+Library untuk TriPay (Payment Gateway Lokal Indonesia) menggunakan bahasa pemrograman PHP versi 7 dan database MariaDB
 
 # Usage
 - Pertama registrasi akun tripay terlebih dahulu, bisa melalui link https://denny.my.id/go/tripay
+- Kemudian pada file ```lib/Tripay.php``` atur koneksi database mysql Anda di ```$this->dbH = new mysqli("localhost", "root", "", "bs");```
+- Lalu perhatikan juga pada file ```lib/Tripay.php``` terdapat ```$field_status,$field_kodetrans,$tabel_trans```, Sesuaikan dengan kondisi database Anda
 - Anda bisa melihat contoh menggunakan library ini di folder ```example```
 
 # List Variable Link
