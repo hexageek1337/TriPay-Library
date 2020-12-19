@@ -32,7 +32,6 @@ class Tripay {
 	public $URL_transDetailOpenMp = 'https://payment.tripay.co.id/api/transaction/open-payment/';
 	public $URL_transPembOpenMs = '';
 	public $URL_transPembOpenMp = 'https://payment.tripay.co.id/api/transaction/open-payment/';
-
 	
 	public function __construct($privateKey = null,$apiKey = null){
 		if ($privateKey === null AND $apiKey === null) {
@@ -138,9 +137,7 @@ class Tripay {
 				$result['status'] = $http_status;
 				$result['message'] = $err;
 			} else {
-				$result['error'] = false;
-				$result['status'] = $http_status;
-				$result['data'] = $response;
+				$result = $response;
 			}
 		}
 
