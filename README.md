@@ -1,8 +1,8 @@
 # TriPay-Library
-Library for TriPay (https://payment.tripay.co.id/) with PHP 7 Object Oriented
+Library untuk TriPay (Payment Gateway Lokal Indonesia) menggunakan bahasa pemrograman PHP versi 7
 
 # Usage
-- Pertama registrasi akun tripay terlebih dahulu, bisa melalui link denny.my.id/go/tripay
+- Pertama registrasi akun tripay terlebih dahulu, bisa melalui link https://denny.my.id/go/tripay
 - Anda bisa melihat contoh menggunakan library ini di folder ```example```
 
 # List Variable Link
