@@ -7,6 +7,8 @@
 class Tripay {
 	protected $api_PKey = '';
 	protected $api_Key = '';
+	// Database
+	protected $dbH;
 
 	// URLs Channel
 	public $URL_channelPs = 'https://payment.tripay.co.id/api-sandbox/payment/channel';
@@ -39,6 +41,7 @@ class Tripay {
 		} else {
 			$this->api_PKey = $privateKey;
 			$this->api_Key = $apiKey;
+			$this->dbH = new mysqli("localhost", "root", "", "bs");
 		}
 	}
 
@@ -67,14 +70,74 @@ class Tripay {
 		if($callbackSignature != $signature) {
 		    exit('Signature tidak valid'); // signature tidak valid, hentikan proses
 		} else {
-			$result['success'] = true;
-
 			// Data
 			$data = json_decode($json);
 			$event = $_SERVER['HTTP_X_CALLBACK_EVENT'];
 
+			if($event == 'payment_status'){
+			    if($data->status == 'UNPAID'){
+			        $merchantRef = $this->dbH->escape_string(addslashes($data->merchant_ref));
+
+			        // pembayaran sukses, lanjutkan proses sesuai sistem Anda, contoh:
+			        $queryUNPAID = "UPDATE trx SET status = 'UNPAID' WHERE idtrx = '".$merchantRef."'";
+			        $updateUNPAID = $this->dbH->query($queryUNPAID);
+
+			        if ($updateUNPAID) {
+			        	$result['success'] = true;
+			        } else {
+			        	$result['success'] = false;
+			        }
+			    } elseif($data->status == 'PAID'){
+			        $merchantRef = $this->dbH->escape_string(addslashes($data->merchant_ref));
+
+			        // pembayaran sukses, lanjutkan proses sesuai sistem Anda, contoh:
+			        $queryPAID = "UPDATE trx SET status = 'PAID' WHERE idtrx = '".$merchantRef."'";
+			        $updatePAID = $this->dbH->query($queryPAID);
+
+			        if ($updatePAID) {
+			        	$result['success'] = true;
+			        } else {
+			        	$result['success'] = false;
+			        }
+			    } elseif($data->status == 'EXPIRED'){
+			        $merchantRef = $this->dbH->escape_string(addslashes($data->merchant_ref));
+
+			        // pembayaran sukses, lanjutkan proses sesuai sistem Anda, contoh:
+			        $queryEXPIRED = "UPDATE trx SET status = 'EXPIRED' WHERE idtrx = '".$merchantRef."'";
+			        $updateEXPIRED = $this->dbH->query($queryEXPIRED);
+
+			        if ($updateEXPIRED) {
+			        	$result['success'] = true;
+			        } else {
+			        	$result['success'] = false;
+			        }
+			    } elseif($data->status == 'FAILED'){
+			        $merchantRef = $this->dbH->escape_string(addslashes($data->merchant_ref));
+
+			        // pembayaran sukses, lanjutkan proses sesuai sistem Anda, contoh:
+			        $queryFAILED = "UPDATE trx SET status = 'FAILED' WHERE idtrx = '".$merchantRef."'";
+			        $updateFAILED = $this->dbH->query($queryFAILED);
+
+			        if ($updateFAILED) {
+			        	$result['success'] = true;
+			        } else {
+			        	$result['success'] = false;
+			        }
+			    } elseif($data->status == 'REFUND'){
+			        $merchantRef = $this->dbH->escape_string(addslashes($data->merchant_ref));
+
+			        // pembayaran sukses, lanjutkan proses sesuai sistem Anda, contoh:
+			        $queryREFUND = "UPDATE trx SET status = 'REFUND' WHERE idtrx = '".$merchantRef."'";
+			        $updateREFUND = $this->dbH->query($queryREFUND);
+
+			        if ($updateREFUND) {
+			        	$result['success'] = true;
+			        } else {
+			        	$result['success'] = false;
+			        }
+			    }
+			}
 			$result['data'] = $data;
-			$result['event'] = $event;
 
 			return json_encode($result, JSON_PRETTY_PRINT);
 		}
