@@ -3,6 +3,13 @@ Library untuk TriPay (Payment Gateway Lokal Indonesia) menggunakan bahasa pemrog
 
 # Usage
 - Pertama registrasi akun tripay terlebih dahulu, bisa melalui link https://denny.my.id/go/tripay
+- Dapatkan API Key dan Private Key pada menu Merchant
+
+Sandbox
+![Sandbox Merchant Key](https://github.com/hexageek1337/TriPay-Library/blob/main/tripaykey_sandbox.PNG?raw=true)
+Production
+![Production Merchant Key](https://github.com/hexageek1337/TriPay-Library/blob/main/tripaykey_production.PNG?raw=true)
+
 - Kemudian pada file ```lib/Tripay.php``` atur koneksi database mysql Anda di ```$this->dbH = new mysqli("localhost", "root", "", "bs");```
 - Lalu perhatikan juga pada file ```lib/Tripay.php``` terdapat ```$field_status,$field_kodetrans,$tabel_trans```, Sesuaikan dengan kondisi database Anda
 - Anda bisa melihat contoh menggunakan library ini di folder ```example```
