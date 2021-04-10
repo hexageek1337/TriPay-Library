@@ -1,0 +1,24 @@
+{
+    "name": "hexageek1337/tripay-library",
+    "type": "library",
+    "description": "Library untuk TriPay (Payment Gateway Lokal Indonesia) menggunakan bahasa pemrograman PHP versi 7 dan database MariaDB.",
+    "homepage": "https://github.com/hexageek1337/TriPay-Library",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+          "name": "Denny Septian Panggabean",
+          "homepage": "https://denny.my.id"
+        }
+    ],
+    "keywords": [
+        "tripay",
+        "tripay-library",
+        "php",
+        "payment gateway",
+        "payment-library"
+    ],
+    "version": "1.0",
+    "require": {
+        "php": ">=7.3"
+    }
+}
