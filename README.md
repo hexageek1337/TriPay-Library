@@ -1,6 +1,20 @@
 # TriPay-Library
 Library untuk TriPay (Payment Gateway Lokal Indonesia) menggunakan bahasa pemrograman PHP versi 7 dan database MariaDB
 
+# Installation
+
+install with composer
+```bash
+$ composer require hexageek1337/tripay-library
+```
+
+manual install with git
+```bash
+$ git clone https://github.com/hexageek1337/TriPay-Library
+$ cd TriPay-Library-main
+$ cp lib/Tripay.php your_application_folder
+```
+
 # Usage
 - Pertama registrasi akun tripay terlebih dahulu, bisa melalui link https://denny.my.id/go/tripay
 - Dapatkan API Key dan Private Key pada menu Merchant
